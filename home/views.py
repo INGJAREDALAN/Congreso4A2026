@@ -6,14 +6,14 @@ def home(request):
     return render(request, 'home/index.html')
 
 def hello(request):
-    return render(request, 'home/hello'.html)
+    return render(request, 'home/hello.html')
 
 def uppercase(request, name):
     name = name.upper()
     context = {
         "name": name
     }
-    return render(request, 'name.html', context)
+    return render(request, 'home/name.html', context)
 
 
 def users(request):
