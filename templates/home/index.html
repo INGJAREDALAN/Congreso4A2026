@@ -3,5 +3,8 @@
 {% block title%}Home{% endblock %}
 
 {% block content %}
-<h1>Home page</h1>
+
+{% load static %}
+
+<img src="{% static 'images/portada.jpg' %}" alt="Portada" id="portada">
 {% endblock %}
