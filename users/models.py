@@ -1,34 +1,34 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import User
 
-class User(AbstractUser):
-    class Role(models.TextChoices):
-        INSTRUCTOR = "INSTRUCTOR", "Instructor"
-        TUTOT = "TUTOR", "Tutor"
-        STUDENT = "STUDENT", "Student"
+from workshops.models import Workshop
 
-    role = models.CharField(
-        max_length=20,
-        choices=Role.choices,
-        default=Role.STUDENT)
+class Student(User):
+        enrollment = models.CharField("Matricula", max_length=11)
+        folio = models.CharField(
+            "Folio",
+            max_length=4,
+            null=True, blank=True, unique=True)
+        is_valid = models.BooleanField(
+            "Es valida?", default=False)
+        workshops = models.ForeignKey(
+            Workshop , related_name="Students",
+            on_delete = models.SET_NULL, verbose_name="Taller",
+            null=True, blank=True)
 
-class StudentProfile(models.Model):
-    user = models.OneToOneField(
-        User,
-        on_delete=models.CASCADE,
-        relate_name="perfil_estudiante")
-    enrollment = models.CharField("Matricula", max_length=11)
+        def __str__(self):
+            return self.enrollement + " " + self.get_full_name()
 
-class TutorProfile(models.Model):
-    user= models.OneToOneField(
-        User,
-        on_delete=models.CASCADE,
-        related_name="perfil_tutor")
-    employee_number= models.CharField('Numero de empleado', max_length=4)
 
-class Instructor(models.Model):
-    user = models.OneToOneField(
-        User,
-        on_delete=models.CASCADE,
-        related_name="perfil_instructor")
-    title = models.ChardField("Titulo", max_legth=20)
+    # role = models.CharField(
+    #     max_length=20,
+    #     choices=Role.choices,
+    #     default=Role.STUDENT)
+
+class Tutor(User):
+    pass
+    
+
+
+class Instructor(User):
+    pass
